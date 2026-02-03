@@ -1,0 +1,7 @@
+LOAD DATA LOCAL INFILE 'clientes.csv'
+INTO TABLE clientes
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(telefone, nome, secretaria);

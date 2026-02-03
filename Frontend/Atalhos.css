@@ -1,0 +1,98 @@
+/* Cores Predefinidas */
+:root {
+    --cor-primaria: #FF6B35;
+    --cor-secundaria: #004E89;
+    --cor-sucesso: #2ECC71;
+    --cor-aviso: #F39C12;
+    --cor-perigo: #E74C3C;
+    --cor-neutro: #95A5A6;
+    --cor-fundo: #ECF0F1;
+    --cor-texto: #2C3E50;
+}
+
+/* Botões Cardápio */
+.btn-prato {
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-prato:hover {
+    background-color: #E55A1F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+/* Botão Proteína */
+.btn-proteina {
+    background-color: var(--cor-secundaria);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-proteina:hover {
+    background-color: #003A66;
+    box-shadow: 0 3px 10px rgba(0, 78, 137, 0.3);
+}
+
+/* Botão Acompanhamentos */
+.btn-acompanhamento {
+    background-color: var(--cor-aviso);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-acompanhamento:hover {
+    background-color: #E67E22;
+    box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+}
+
+/* Botão Confirmar Pedido */
+.btn-confirmar {
+    background-color: var(--cor-sucesso);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-confirmar:hover {
+    background-color: #27AE60;
+    transform: scale(1.05);
+}
+
+/* Botão Cancelar */
+.btn-cancelar {
+    background-color: var(--cor-perigo);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #C0392B;
+}
