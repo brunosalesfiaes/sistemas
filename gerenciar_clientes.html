@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Clientes - Delícias da Cintia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #FF6B35 0%, #004E89 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #FF6B35;
+            color: white;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #FF6B35;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 5px #FF6B35;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        button {
+            padding: 12px 30px;
+            background: #FF6B35;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #E55A1F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secundario {
+            background: #004E89;
+        }
+
+        .btn-secundario:hover {
+            background: #003A66;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mensagem {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .mensagem.sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .mensagem.erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #004E89;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .btn-deletar {
+            background: #E74C3C;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-deletar:hover {
+            background: #C0392B;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #FF6B35;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .upload-area {
+            border: 2px dashed #FF6B35;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .upload-area:hover {
+            background: #fff3e0;
+            border-color: #E55A1F;
+        }
+
+        .upload-area.dragover {
+            background: #FFE0D2;
+            border-color: #E55A1F;
+        }
+
+        .upload-area p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .upload-area strong {
+            color: #FF6B35;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👥 Gerenciar Clientes</h1>
+            <p>Delícias da Cintia</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarTab('novo')">➕ Novo Cliente</button>
+            <button class="tab-btn" onclick="mostrarTab('importar')">📤 Importar CSV</button>
+            <button class="tab-btn" onclick="mostrarTab('listar')">📋 Listar Clientes</button>
+        </div>
+
+        <!-- TAB 1: NOVO CLIENTE -->
+        <div id="novo" class="tab-content active">
+            <h2>Cadastrar Novo Cliente</h2>
+            <div class="mensagem" id="mensagemNovo"></div>
+
+            <form id="formNovoCliente">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefone">Telefone *</label>
+                        <input type="text" id="telefone" name="telefone" placeholder="(11) 98765-4321" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome" name="nome" placeholder="Nome do cliente" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="secretaria">Secretaria/Setor</label>
+                    <input type="text" id="secretaria" name="secretaria" placeholder="Ex: Vendas, RH, Financeiro...">
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit">✓ Cadastrar Cliente</button>
+                    <button type="reset" class="btn-secundario">⟲ Limpar Formulário</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TAB 2: IMPORTAR CSV -->
+        <div id="importar" class="tab-content">
+            <h2>Importar Clientes do CSV</h2>
+            <div class="info-box">
+                <strong>📋 Formato esperado:</strong><br>
+                Arquivo CSV com colunas: telefone, nome, secretaria<br>
+                <small>(Pode ser separado por vírgula ou ponto e vírgula)</small>
+            </div>
+            <div class="mensagem" id="mensagemImportar"></div>
+
+            <div class="upload-area" id="uploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div style="font-size: 40px; margin-bottom: 10px;">📁</div>
+                <p><strong>Arraste seu arquivo aqui</strong></p>
+                <p>ou clique para selecionar</p>
+                <input type="file" id="fileInput" accept=".csv" style="display: none;">
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h3 style="color: #333; margin-bottom: 15px;">Ou use a importação automática:</h3>
+                <button type="button" onclick="importarContatos()" class="btn-secundario">
+                    📂 Importar contatos.csv
+                </button>
+                <p style="margin-top: 10px; font-size: 12px; color: #666;">
+                    Importa automaticamente o arquivo contatos.csv do servidor
+                </p>
+            </div>
+
+            <div id="progressoImportacao" style="display: none; margin-top: 20px;">
+                <div class="spinner"></div>
+                <p id="textoProgresso">Importando...</p>
+            </div>
+        </div>
+
+        <!-- TAB 3: LISTAR CLIENTES -->
+        <div id="listar" class="tab-content">
+            <h2>Lista de Clientes</h2>
+            <div class="mensagem" id="mensagemListar"></div>
+
+            <div class="btn-group" style="margin-bottom: 20px;">
+                <button type="button" onclick="carregarClientes()">🔄 Atualizar Lista</button>
+                <input type="text" id="buscar" placeholder="Buscar por nome ou telefone..." style="flex: 1; padding: 10px;">
+            </div>
+
+            <div id="tabelaClientes">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Carregando clientes...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Alternador de abas
+        function mostrarTab(tabName) {
+            // Ocultar todas as abas
+            const abas = document.querySelectorAll('.tab-content');
+            abas.forEach(aba => aba.classList.remove('active'));
+
+            // Desativar todos os botões
+            const botoes = document.querySelectorAll('.tab-btn');
+            botoes.forEach(botao => botao.classList.remove('active'));
+
+            // Mostrar a aba selecionada
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Carregar dados se for a aba de listar
+            if (tabName === 'listar') {
+                carregarClientes();
+            }
+        }
+
+        // ===== NOVO CLIENTE =====
+        document.getElementById('formNovoCliente').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const telefone = document.getElementById('telefone').value;
+            const nome = document.getElementById('nome').value;
+            const secretaria = document.getElementById('secretaria').value;
+
+            try {
+                const response = await fetch('cadastrar_cliente.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `acao=novo&telefone=${encodeURIComponent(telefone)}&nome=${encodeURIComponent(nome)}&secretaria=${encodeURIComponent(secretaria)}`
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    mostrarMensagem('mensagemNovo', 'Cliente cadastrado com sucesso!', 'sucesso');
+                    document.getElementById('formNovoCliente').reset();
+                    setTimeout(() => {
+                        mostrarTab('listar');
+                    }, 1500);
+                } else {
+                    mostrarMensagem('mensagemNovo', data.erro || 'Erro ao cadastrar cliente', 'erro');
+                }
+            } catch (error) {
+                mostrarMensagem('mensagemNovo', 'Erro: ' + error.message, 'erro');
+            }
+        });
+
+        // ===== IMPORTAR CSV =====
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const arquivo = e.target.files[0];
+            if (arquivo && arquivo.type === 'text/csv') {
+                importarArquivoCSV(arquivo);
+            } else {
+                mostrarMensagem('mensagemImportar', 'Por favor, selecione um arquivo CSV válido', 'erro');
+            }
+        });
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const arquivo = e.dataTransfer.files[0];
+            if (arquivo && arquivo.type === 'text/csv') {
+                importarArquivoCSV(arquivo);
+            } else {
+                mostrarMensagem('mensagemImportar', 'Por favor, use um arquivo CSV válido', 'erro');
+            }
+        }
+
+        async function importarArquivoCSV(arquivo) {
+            const formData = new FormData();
+            formData.append('acao', 'importar_arquivo');
+            formData.append('arquivo', arquivo);
+
+            document.getElementById('progressoImportacao').style.display = 'block';
+            document.getElementById('textoProgresso').textContent = 'Importando ' + arquivo.name + '...';
+
+            try {
+                const response = await fetch('cadastrar_cliente.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                document.getElementById('progressoImportacao').style.display = 'none';
+
+                if (data.sucesso) {
+                    mostrarMensagem('mensagemImportar', 
+                        `✓ ${data.adicionados} clientes importados com sucesso!`, 'sucesso');
+                    fileInput.value = '';
+                } else {
+                    mostrarMensagem('mensagemImportar', data.erro || 'Erro ao importar', 'erro');
+                }
+            } catch (error) {
+                document.getElementById('progressoImportacao').style.display = 'none';
+                mostrarMensagem('mensagemImportar', 'Erro: ' + error.message, 'erro');
+            }
+        }
+
+        async function importarContatos() {
+            document.getElementById('progressoImportacao').style.display = 'block';
+            document.getElementById('textoProgresso').textContent = 'Importando contatos.csv...';
+
+            try {
+                const response = await fetch('cadastrar_cliente.php?acao=importar_contatos', {
+                    method: 'GET'
+                });
+
+                const data = await response.json();
+
+                document.getElementById('progressoImportacao').style.display = 'none';
+
+                if (data.sucesso) {
+                    mostrarMensagem('mensagemImportar', 
+                        `✓ ${data.adicionados} clientes importados com sucesso!`, 'sucesso');
+                    setTimeout(() => carregarClientes(), 1500);
+                } else {
+                    mostrarMensagem('mensagemImportar', data.erro || 'Erro ao importar', 'erro');
+                }
+            } catch (error) {
+                document.getElementById('progressoImportacao').style.display = 'none';
+                mostrarMensagem('mensagemImportar', 'Erro: ' + error.message, 'erro');
+            }
+        }
+
+        // ===== LISTAR CLIENTES =====
+        async function carregarClientes(filtro = '') {
+            const tabelaDiv = document.getElementById('tabelaClientes');
+            tabelaDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Carregando...</div>';
+
+            try {
+                const url = filtro ? 
+                    `cadastrar_cliente.php?acao=listar&buscar=${encodeURIComponent(filtro)}` :
+                    'cadastrar_cliente.php?acao=listar';
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.sucesso && data.clientes.length > 0) {
+                    let html = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Telefone</th>
+                                    <th>Nome</th>
+                                    <th>Secretaria</th>
+                                    <th>Data Cadastro</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    data.clientes.forEach(cliente => {
+                        html += `
+                            <tr>
+                                <td>#${cliente.id}</td>
+                                <td>${cliente.telefone}</td>
+                                <td>${cliente.nome}</td>
+                                <td>${cliente.secretaria || '-'}</td>
+                                <td>${new Date(cliente.data_cadastro).toLocaleDateString('pt-BR')}</td>
+                                <td>
+                                    <button class="btn-deletar" onclick="deletarCliente(${cliente.id})">
+                                        🗑️ Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 15px; color: #666;">
+                            Total: <strong>${data.total}</strong> cliente${data.total !== 1 ? 's' : ''}
+                        </p>
+                    `;
+
+                    tabelaDiv.innerHTML = html;
+                } else {
+                    tabelaDiv.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Nenhum cliente encontrado</p>';
+                }
+            } catch (error) {
+                tabelaDiv.innerHTML = `<p style="color: red;">Erro ao carregar: ${error.message}</p>`;
+            }
+        }
+
+        // Busca em tempo real
+        document.getElementById('buscar').addEventListener('keyup', function(e) {
+            carregarClientes(this.value);
+        });
+
+        async function deletarCliente(id) {
+            if (!confirm('Tem certeza que deseja deletar este cliente?')) return;
+
+            try {
+                const response = await fetch('cadastrar_cliente.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `acao=deletar&id=${id}`
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    mostrarMensagem('mensagemListar', 'Cliente deletado com sucesso!', 'sucesso');
+                    carregarClientes();
+                } else {
+                    mostrarMensagem('mensagemListar', data.erro || 'Erro ao deletar', 'erro');
+                }
+            } catch (error) {
+                mostrarMensagem('mensagemListar', 'Erro: ' + error.message, 'erro');
+            }
+        }
+
+        // Função auxiliar para mostrar mensagens
+        function mostrarMensagem(elementId, texto, tipo) {
+            const elemento = document.getElementById(elementId);
+            elemento.className = `mensagem ${tipo}`;
+            elemento.textContent = texto;
+            
+            if (tipo === 'sucesso') {
+                setTimeout(() => {
+                    elemento.style.display = 'none';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

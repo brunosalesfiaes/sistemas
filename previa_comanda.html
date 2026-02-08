@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prévia de Comanda - Delícias da Cintia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .comanda-preview {
+            width: 80mm;
+            max-width: 100%;
+            background: white;
+            margin: 0 auto 20px;
+            padding: 10px;
+            border: 2px dashed #000;
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        .cabecalho {
+            text-align: center;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .cabecalho h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .cabecalho p {
+            font-size: 8pt;
+            margin: 1px 0;
+        }
+
+        .numero-comanda {
+            font-size: 14pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 8px 0;
+            border: 2px solid #000;
+            padding: 5px;
+        }
+
+        .secao {
+            margin: 8px 0;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 6px;
+        }
+
+        .secao-titulo {
+            font-size: 8pt;
+            font-weight: bold;
+            margin-bottom: 3px;
+            text-decoration: underline;
+        }
+
+        .campo {
+            font-size: 8pt;
+            margin: 2px 0;
+        }
+
+        .lista-item {
+            font-size: 8pt;
+            margin: 2px 0 2px 8px;
+        }
+
+        .rodape {
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            font-size: 7pt;
+            border-top: 2px dashed #000;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-imprimir {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-imprimir:hover {
+            background: #45a049;
+        }
+
+        .btn-voltar {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-voltar:hover {
+            background: #0b7dda;
+        }
+
+        .nota {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1>🎫 Prévia de Comanda</h1>
+
+        <div class="info">
+            <strong>ℹ️ Informação:</strong> Esta é uma prévia de como sua comanda ficará quando impressa. 
+            A comanda real será gerada após preencher o formulário e clicar em "Finalizar Pedido".
+        </div>
+
+        <div class="comanda-preview">
+            <div class="cabecalho">
+                <h2>DELÍCIAS DA CINTIA</h2>
+                <p>Restaurante</p>
+            </div>
+
+            <div class="numero-comanda">
+                COMANDA #1001
+            </div>
+
+            <div class="secao">
+                <div class="secao-titulo">CLIENTE</div>
+                <div class="campo">Nome: João Silva</div>
+                <div class="campo">Secretaria: Vendas</div>
+                <div class="campo">Tel: (11) 98765-4321</div>
+            </div>
+
+            <div class="secao">
+                <div class="secao-titulo">PROTEÍNA</div>
+                <div class="lista-item">• Frango com Toscana</div>
+            </div>
+
+            <div class="secao">
+                <div class="secao-titulo">ACOMPANHAMENTOS</div>
+                <div class="lista-item">• Arroz</div>
+                <div class="lista-item">• Feijão de Caldo</div>
+            </div>
+
+            <div class="secao">
+                <div class="secao-titulo">SALADAS</div>
+                <div class="lista-item">• Repolho</div>
+                <div class="lista-item">• Maionese</div>
+            </div>
+
+            <div class="rodape">
+                <div>07/02/2026 10:30</div>
+                <p>Obrigado!</p>
+            </div>
+        </div>
+
+        <div class="nota">
+            <strong>📝 Dicas:</strong>
+            <ul style="margin-left: 20px; margin-top: 5px;">
+                <li>O tamanho padrão é 80mm (largura de impressoras térmicas)</li>
+                <li>Todas as margens são zeradas para melhor aproveitamento</li>
+                <li>Use "Imprimir para PDF" para teste sem impressora física</li>
+                <li>Cada pedido recebe um número único de comanda</li>
+            </ul>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-imprimir" onclick="testPrint()">🖨️ Testar Impressão</button>
+            <button class="btn-voltar" onclick="location.href='Frontend/PageOne.html'">📋 Criar Comanda Real</button>
+        </div>
+    </div>
+
+    <script>
+        function testPrint() {
+            // Criar elemento invisível com a comanda
+            const comanda = document.querySelector('.comanda-preview').cloneNode(true);
+            const printWindow = window.open('', '', 'width=400,height=600');
+            
+            const html = `
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { margin: 0; padding: 0; font-family: 'Courier New', monospace; }
+                        * { margin: 0; padding: 0; }
+                        .comanda { width: 80mm; padding: 10px; }
+                        @media print {
+                            body { margin: 0; padding: 0; }
+                            .comanda { width: 100%; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${comanda.outerHTML}
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(html);
+            printWindow.document.close();
+            
+            setTimeout(() => {
+                printWindow.print();
+            }, 250);
+        }
+    </script>
+</body>
+</html>

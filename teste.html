@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Conexão - Delícias da Cintia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-item.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .test-item.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .test-item.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+        }
+
+        .icon {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .test-content {
+            flex: 1;
+        }
+
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .test-message {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .summary {
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #f0f0f0;
+            text-align: center;
+        }
+
+        .summary-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .summary.ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .summary.not-ready {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Verificação de Sistema</h1>
+        <div id="results"></div>
+        <div class="actions">
+            <button class="btn-primary" onclick="location.href='Frontend/PageOne.html'">✓ Ir para Aplicação</button>
+            <button class="btn-secondary" onclick="location.reload()">🔄 Recarregar</button>
+        </div>
+    </div>
+
+    <script>
+        async function runTests() {
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+            let allPassed = true;
+
+            // Teste 1: Verificar PHP
+            const phpTest = await testPHP();
+            addResult('PHP', phpTest.success, phpTest.message);
+            allPassed = allPassed && phpTest.success;
+
+            // Teste 2: Verificar Banco de Dados
+            const dbTest = await testDatabase();
+            addResult('Banco de Dados', dbTest.success, dbTest.message);
+            allPassed = allPassed && dbTest.success;
+
+            // Teste 3: Verificar Arquivo de Configuração
+            const configTest = await testConfig();
+            addResult('Arquivo de Configuração', configTest.success, configTest.message);
+            allPassed = allPassed && configTest.success;
+
+            // Teste 4: Verificar Action Page
+            const actionTest = await testActionPage();
+            addResult('Arquivo action_PAGE.php', actionTest.success, actionTest.message);
+            allPassed = allPassed && actionTest.success;
+
+            // Resumo
+            const summary = document.createElement('div');
+            summary.className = 'summary ' + (allPassed ? 'ready' : 'not-ready');
+            summary.innerHTML = `
+                <div class="summary-text">
+                    ${allPassed ? '✓ Sistema pronto para usar!' : '✗ Alguns testes falharam'}
+                </div>
+                ${allPassed ? '<p>Clique em "Ir para Aplicação" para começar.</p>' : '<p>Verifique os erros acima e ajuste as configurações.</p>'}
+            `;
+            document.getElementById('results').appendChild(summary);
+        }
+
+        function addResult(name, success, message) {
+            const result = document.createElement('div');
+            result.className = 'test-item ' + (success ? 'success' : 'error');
+            result.innerHTML = `
+                <div class="icon">${success ? '✓' : '✗'}</div>
+                <div class="test-content">
+                    <div class="test-title">${name}</div>
+                    <div class="test-message">${message}</div>
+                </div>
+            `;
+            document.getElementById('results').appendChild(result);
+        }
+
+        async function testPHP() {
+            try {
+                const response = await fetch('test_connection.php');
+                if (response.ok) {
+                    const data = await response.json();
+                    return {
+                        success: true,
+                        message: `PHP ${data.php_version || 'instalado'}`
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: 'PHP não respondeu corretamente'
+                    };
+                }
+            } catch (e) {
+                return {
+                    success: false,
+                    message: 'PHP não está instalado ou servidor não está rodando'
+                };
+            }
+        }
+
+        async function testDatabase() {
+            try {
+                const response = await fetch('test_connection.php?test=db');
+                const data = await response.json();
+                if (data.success) {
+                    return {
+                        success: true,
+                        message: `Banco de dados "${data.database}" conectado`
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: data.error || 'Falha ao conectar ao banco de dados'
+                    };
+                }
+            } catch (e) {
+                return {
+                    success: false,
+                    message: 'Erro ao testar conexão: ' + e.message
+                };
+            }
+        }
+
+        async function testConfig() {
+            try {
+                const response = await fetch('config.php');
+                if (response.ok) {
+                    return {
+                        success: true,
+                        message: 'Arquivo de configuração encontrado'
+                    };
+                }
+            } catch (e) {
+                return {
+                    success: false,
+                    message: 'Arquivo config.php não encontrado'
+                };
+            }
+        }
+
+        async function testActionPage() {
+            try {
+                const response = await fetch('action_PAGE.php');
+                return {
+                    success: true,
+                    message: 'Arquivo encontrado'
+                };
+            } catch (e) {
+                return {
+                    success: false,
+                    message: 'Arquivo não encontrado'
+                };
+            }
+        }
+
+        // Executar testes quando página carrega
+        window.addEventListener('load', runTests);
+    </script>
+</body>
+</html>

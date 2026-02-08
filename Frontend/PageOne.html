@@ -1,59 +1,433 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de Comandas - Delícias da Cintia</title>
+    <link rel="stylesheet" href="Atalhos.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--cor-fundo);
+            padding: 20px;
+            color: var(--cor-texto);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--cor-primaria);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--cor-texto);
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 5px var(--cor-primaria);
+        }
+
+        .secao {
+            margin: 25px 0;
+        }
+
+        .secao h3 {
+            color: var(--cor-secundaria);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            width: auto;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        input[type="submit"],
+        button {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"] {
+            background-color: var(--cor-sucesso);
+            color: white;
+            flex: 1;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #27AE60;
+            transform: scale(1.05);
+        }
+
+        button.btn-cancelar {
+            background-color: var(--cor-perigo);
+            color: white;
+            flex: 1;
+        }
+
+        button.btn-cancelar:hover {
+            background-color: #C0392B;
+        }
+
+        .mensagem {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .mensagem.erro {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .mensagem.sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .cliente-info {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--cor-secundaria);
+            display: none;
+        }
+
+        .cliente-info.ativo {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--cor-primaria);
+        }
+    </style>
 </head>
 <body>
-    <h1>Restaurante Delicias da Cintia </h1>
+    <div class="container">
+        <h1>🍽️ Restaurante Delícias da Cintia</h1>
+        <h2 style="text-align: center; color: var(--cor-secundaria); margin-bottom: 25px;">Sistema de Comandas</h2>
 
-    <label>Telefone</label>
-    <input type="text" id="telefone">
-    <label>nome</label>
-    <input type="text" id="nome" >
-    <label>secretaria</label>
-    <input type="text" id="secretaria">
+        <div class="mensagem" id="mensagem"></div>
 
-    <h2>Selecione uma das proteinas disponiveis disponiveis:</h2> 
-
-    <form action="/action_PAGE.php">
-        <label for="proteinas"> selecione uma das proteinas disponiveis:
-            </label>
-        </optgroup>
+        <form id="formComanda" method="POST" action="action_PAGE.php">
+            <!-- Dados do Cliente -->
+            <div class="secao">
+                <h3>📱 Dados do Cliente</h3>
                 
-        <select name="pratos" id= "pratos">
-                <optgroup><label for="pratos disponiveis">
-                    <option 
-                    value="FT">frango com toscana</option>
-                    <option 
-                    value="F.molho">frango com barbecue</option>
-                    <option 
-                    value="Sproteina">Sem proteina</option>
-                    </optgroup>
-                </select>
-                <P>Escolha o acompanhamento do seu prato:</P>
-                    <li><label> <input type="checkbox">arroz</label></li>
-                     <li><label> <input type="checkbox">arroz temperado</label></li>
-                      <li><label> <input type="checkbox">arroz integral</label></li>
-                    <li><label> <input type="checkbox">macarrão</label></li>
-                    <li><label> <input type="checkbox">feijão de caldo</label></li>
-                    <li><label> <input type="checkbox">feijão tropeiro</label></li>
-                    <li><label> <input type="checkbox">Purê de batata</label></li>
-                    <li><label> <input type="checkbox">Farofa crocante</label></li> 
-                <p>Escolha sua salada:</p>
-                <li><label> <input type="checkbox">Sem salada</label></li>
-                    <li><label> <input type="checkbox">Acelga</label></li>
-                    <li><label> <input type="checkbox">Repolho</label></li>
-                    <li><label> <input type="checkbox">Beterraba</label></li>
-                    <li><label> <input type="checkbox">Legumes</label></li>
-                    <li><label> <input type="checkbox">Maionese</label></li>
+                <div class="form-group">
+                    <label for="telefone">Telefone do Cliente *</label>
+                    <input type="text" id="telefone" name="telefone" required placeholder="(11) 98765-4321" maxlength="15">
+                    <div class="loading" id="loading">Buscando cliente...</div>
+                </div>
 
-                    <br><br>
-                <h5>clique no botao "Finalizar Pedido" abaixo para enviar seu pedido:</h5>
-             <input type="submit" value="Finalizar Pedido">
-        </label>
-    </form>
+                <div class="cliente-info" id="clienteInfo">
+                    <div class="form-group">
+                        <label for="nome">Nome do Cliente</label>
+                        <input type="text" id="nome" name="nome" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secretaria">Secretaria</label>
+                        <input type="text" id="secretaria" name="secretaria" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proteína -->
+            <div class="secao">
+                <h3>🍗 Proteína Principal *</h3>
+                <div class="form-group">
+                    <select name="proteina" id="proteina" required>
+                        <option value="">-- Selecione uma proteína --</option>
+                        <option value="FT">Frango com Toscana</option>
+                        <option value="FB">Frango com Barbecue</option>
+                        <option value="SP">Sem Proteína</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Acompanhamentos -->
+            <div class="secao">
+                <h3>🍚 Acompanhamentos</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="acompanhamento" value="arroz"> Arroz</label>
+                    <label><input type="checkbox" name="acompanhamento" value="arroz_temperado"> Arroz Temperado</label>
+                    <label><input type="checkbox" name="acompanhamento" value="arroz_integral"> Arroz Integral</label>
+                    <label><input type="checkbox" name="acompanhamento" value="macarrao"> Macarrão</label>
+                    <label><input type="checkbox" name="acompanhamento" value="feijao_caldo"> Feijão de Caldo</label>
+                    <label><input type="checkbox" name="acompanhamento" value="feijao_tropeiro"> Feijão Tropeiro</label>
+                    <label><input type="checkbox" name="acompanhamento" value="pure_batata"> Purê de Batata</label>
+                    <label><input type="checkbox" name="acompanhamento" value="farofa"> Farofa Crocante</label>
+                </div>
+            </div>
+
+            <!-- Saladas -->
+            <div class="secao">
+                <h3>🥗 Saladas</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="salada" value="sem_salada"> Sem Salada</label>
+                    <label><input type="checkbox" name="salada" value="acelga"> Acelga</label>
+                    <label><input type="checkbox" name="salada" value="repolho"> Repolho</label>
+                    <label><input type="checkbox" name="salada" value="beterraba"> Beterraba</label>
+                    <label><input type="checkbox" name="salada" value="legumes"> Legumes</label>
+                    <label><input type="checkbox" name="salada" value="maionese"> Maionese</label>
+                </div>
+            </div>
+
+            <!-- Botões -->
+            <div class="botoes">
+                <input type="submit" value="✓ Finalizar Pedido">
+                <button type="reset" class="btn-cancelar">✕ Limpar Formulário</button>
+            </div>
+
+            <!-- SEPARADOR -->
+            <div style="margin: 30px 0; padding: 20px 0; border-top: 2px solid #FF6B35; border-bottom: 2px solid #FF6B35;">
+                <h3 style="color: #FF6B35; text-align: center; margin-bottom: 20px;">👤 Cadastrar Novo Cliente</h3>
+            </div>
+
+            <!-- Cadastro de Novo Cliente -->
+            <div class="secao">
+                <h3 style="color: #004E89;">📱 Dados do Novo Cliente</h3>
+                
+                <div class="form-group">
+                    <label for="telefoneCadastro">Telefone do Novo Cliente *</label>
+                    <input type="text" id="telefoneCadastro" placeholder="(11) 98765-4321" maxlength="15">
+                </div>
+
+                <div class="form-group">
+                    <label for="nomeCadastro">Nome Completo *</label>
+                    <input type="text" id="nomeCadastro" placeholder="Nome do cliente">
+                </div>
+
+                <div class="form-group">
+                    <label for="secretariaCadastro">Secretaria/Local de Entrega</label>
+                    <input type="text" id="secretariaCadastro" placeholder="Exemplo: Vendas, RH, Financeiro...">
+                </div>
+
+                <button type="button" id="btnCadastrarNovo" style="background-color: #2ECC71; width: 100%;">
+                    ✓ Cadastrar Novo Cliente
+                </button>
+                <div class="mensagem" id="mensagemCadastro"></div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const telefoneInput = document.getElementById('telefone');
+        const telefoneInputCadastro = document.getElementById('telefoneCadastro');
+        const loading = document.getElementById('loading');
+        const clienteInfo = document.getElementById('clienteInfo');
+        const nomeInput = document.getElementById('nome');
+        const secretariaInput = document.getElementById('secretaria');
+        const mensagem = document.getElementById('mensagem');
+        const mensagemCadastro = document.getElementById('mensagemCadastro');
+        let clienteEncontrado = false;
+
+        // ===== FUNÇÃO PARA APLICAR MÁSCARA DE TELEFONE =====
+        function aplicarMascaraTelefone(elemento) {
+            elemento.addEventListener('input', function(e) {
+                let valor = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+                
+                if (valor.length > 0) {
+                    if (valor.length <= 2) {
+                        valor = '(' + valor;
+                    } else if (valor.length <= 6) {
+                        valor = '(' + valor.slice(0, 2) + ') ' + valor.slice(2);
+                    } else if (valor.length <= 10) {
+                        valor = '(' + valor.slice(0, 2) + ') ' + valor.slice(2, 6) + '-' + valor.slice(6);
+                    } else {
+                        valor = '(' + valor.slice(0, 2) + ') ' + valor.slice(2, 7) + '-' + valor.slice(7, 11);
+                    }
+                }
+                
+                e.target.value = valor;
+            });
+        }
+
+        // Aplicar máscara em ambos os campos de telefone
+        aplicarMascaraTelefone(telefoneInput);
+        aplicarMascaraTelefone(telefoneInputCadastro);
+
+        // Buscar cliente quando terminar de digitar telefone
+        telefoneInput.addEventListener('blur', function() {
+            const telefone = this.value.trim();
+            if (telefone.length > 0) {
+                buscarCliente(telefone);
+            }
+        });
+
+        function buscarCliente(telefone) {
+            loading.style.display = 'block';
+            clienteInfo.classList.remove('ativo');
+            clienteEncontrado = false;
+
+            fetch('../action_PAGE.php?action=buscar_cliente', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'telefone=' + encodeURIComponent(telefone)
+            })
+            .then(response => response.json())
+            .then(data => {
+                loading.style.display = 'none';
+                if (data.sucesso) {
+                    nomeInput.value = data.nome;
+                    secretariaInput.value = data.secretaria;
+                    clienteInfo.classList.add('ativo');
+                    clienteEncontrado = true;
+                    mostrarMensagem('Cliente encontrado!', 'sucesso');
+                } else {
+                    mostrarMensagem('Cliente não encontrado. Use o formulário abaixo para cadastrar.', 'erro');
+                }
+            })
+            .catch(error => {
+                loading.style.display = 'none';
+                console.error('Erro:', error);
+                mostrarMensagem('Erro ao buscar cliente.', 'erro');
+            });
+        }
+
+        // ===== CADASTRO DE NOVO CLIENTE =====
+        document.getElementById('btnCadastrarNovo').addEventListener('click', async function() {
+            const telefone = document.getElementById('telefoneCadastro').value.trim();
+            const nome = document.getElementById('nomeCadastro').value.trim();
+            const secretaria = document.getElementById('secretariaCadastro').value.trim();
+
+            if (!telefone || !nome) {
+                mostrarMensagemCadastro('Telefone e nome são obrigatórios!', 'erro');
+                return;
+            }
+
+            try {
+                const response = await fetch('../cadastrar_cliente.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `acao=novo&telefone=${encodeURIComponent(telefone)}&nome=${encodeURIComponent(nome)}&secretaria=${encodeURIComponent(secretaria)}`
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    mostrarMensagemCadastro('✓ Cliente cadastrado com sucesso!', 'sucesso');
+                    
+                    // Preencher automaticamente o campo de telefone
+                    document.getElementById('telefone').value = telefone;
+                    document.getElementById('nome').value = nome;
+                    document.getElementById('secretaria').value = secretaria;
+                    document.getElementById('clienteInfo').classList.add('ativo');
+                    clienteEncontrado = true;
+
+                    // Limpar formulário de cadastro
+                    document.getElementById('telefoneCadastro').value = '';
+                    document.getElementById('nomeCadastro').value = '';
+                    document.getElementById('secretariaCadastro').value = '';
+
+                    // Scroll para o topo
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                } else {
+                    mostrarMensagemCadastro(data.erro || 'Erro ao cadastrar cliente', 'erro');
+                }
+            } catch (error) {
+                mostrarMensagemCadastro('Erro: ' + error.message, 'erro');
+            }
+        });
+
+        function mostrarMensagem(texto, tipo) {
+            mensagem.textContent = texto;
+            mensagem.className = 'mensagem ' + tipo;
+            setTimeout(() => {
+                mensagem.style.display = 'none';
+            }, 5000);
+        }
+
+        function mostrarMensagemCadastro(texto, tipo) {
+            mensagemCadastro.textContent = texto;
+            mensagemCadastro.className = 'mensagem ' + tipo;
+            setTimeout(() => {
+                mensagemCadastro.style.display = 'none';
+            }, 5000);
+        }
+
+        // Validar formulário antes de enviar
+        document.getElementById('formComanda').addEventListener('submit', function(e) {
+            if (!clienteEncontrado) {
+                e.preventDefault();
+                mostrarMensagem('Por favor, insira um telefone e aguarde a busca do cliente.', 'erro');
+                return false;
+            }
+        });
+    </script>
 </body>
-
 </html>

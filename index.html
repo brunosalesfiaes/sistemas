@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub - Sistema de Comandas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FF6B35 0%, #004E89 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #FF6B35;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            font-weight: bold;
+        }
+
+        .card-link:hover {
+            background: #E55A1F;
+        }
+
+        .card.featured {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #FF6B35 0%, #004E89 100%);
+            color: white;
+        }
+
+        .card.featured h3 {
+            color: white;
+        }
+
+        .card.featured p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .card.featured .card-link {
+            background: white;
+            color: #FF6B35;
+            font-weight: bold;
+        }
+
+        .card.featured .card-link:hover {
+            background: #f0f0f0;
+        }
+
+        .status-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .status-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FF6B35;
+            padding-bottom: 10px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item {
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #2ECC71;
+            border-radius: 3px;
+        }
+
+        .status-item.done {
+            border-left-color: #2ECC71;
+            background: #f0fdf4;
+        }
+
+        .status-item.pending {
+            border-left-color: #F39C12;
+            background: #fffbf0;
+        }
+
+        .status-item strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .status-item.done::before {
+            content: "✓ ";
+            color: #2ECC71;
+            font-weight: bold;
+        }
+
+        .status-item.pending::before {
+            content: "⏱ ";
+            color: #F39C12;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .shortcut-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .shortcut {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background 0.3s ease;
+        }
+
+        .shortcut:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Delícias da Cintia</h1>
+            <p>Sistema de Comandas - Hub Central</p>
+        </header>
+
+        <div class="grid">
+            <!-- Card Destaque -->
+            <div class="card featured">
+                <div class="card-icon">🚀</div>
+                <h3>Bem-vindo ao Sistema!</h3>
+                <p>Sistema completo de gerenciamento e impressão de comandas para seu restaurante. 
+                   Com busca automática de clientes, geração de comandas e suporte para impressoras térmicas.</p>
+                <a href="Frontend/PageOne.html" class="card-link">→ Começar Agora</a>
+            </div>
+
+            <!-- Card Principal -->
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Criar Comanda</h3>
+                <p>Interface principal para criar novas comandas. 
+                   Digite o telefone do cliente, selecione o pedido e imprima.</p>
+                <a href="Frontend/PageOne.html" class="card-link">Abrir →</a>
+            </div>
+
+            <!-- Card Teste -->
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>Testar Sistema</h3>
+                <p>Verifique se tudo está funcionando corretamente. 
+                   Testa PHP, banco de dados e todos os arquivos necessários.</p>
+                <a href="teste.html" class="card-link">Diagnosticar →</a>
+            </div>
+
+            <!-- Card Dashboard -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Dashboard</h3>
+                <p>Veja o histórico de todos os pedidos, estatísticas e status de impressão. 
+                   Acompanhe o desempenho do restaurante.</p>
+                <a href="dashboard.html" class="card-link">Abrir →</a>
+            </div>
+
+            <!-- Card Gerenciar Clientes -->
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h3>Gerenciar Clientes</h3>
+                <p>Adicione novos clientes, importe do CSV ou visualize a lista completa. 
+                   Gerencie todos os dados dos seus clientes facilmente.</p>
+                <a href="gerenciar_clientes.html" class="card-link">Abrir →</a>
+            </div>
+
+            <!-- Card Prévia -->
+            <div class="card">
+                <div class="card-icon">🎫</div>
+                <h3>Prévia Comanda</h3>
+                <p>Veja como uma comanda fica antes de usar o sistema de verdade. 
+                   Teste a impressão sem criar um pedido real.</p>
+                <a href="previa_comanda.html" class="card-link">Visualizar →</a>
+            </div>
+
+            <!-- Card Documentação -->
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>Documentação</h3>
+                <p>Guias completos, instruções de instalação, troubleshooting e muito mais. 
+                   Tudo que você precisa saber sobre o sistema.</p>
+                <div class="shortcut-list">
+                    <a href="GUIA_RAPIDO.md" class="shortcut" target="_blank">Guia Rápido</a>
+                    <a href="SETUP_INSTRUCOES.md" class="shortcut" target="_blank">Setup Completo</a>
+                    <a href="INDICE.md" class="shortcut" target="_blank">Índice</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Section -->
+        <div class="status-section">
+            <h2>✅ Status da Implementação</h2>
+            <div class="status-grid">
+                <div class="status-item done">
+                    <strong>Front-end</strong>
+                    Interface web completa
+                </div>
+                <div class="status-item done">
+                    <strong>Back-end</strong>
+                    Sistema PHP funcional
+                </div>
+                <div class="status-item done">
+                    <strong>Banco de Dados</strong>
+                    MySQL pronto
+                </div>
+                <div class="status-item done">
+                    <strong>Impressoras</strong>
+                    Suporte para térmica 80mm
+                </div>
+                <div class="status-item done">
+                    <strong>Busca Cliente</strong>
+                    Automática por telefone
+                </div>
+                <div class="status-item done">
+                    <strong>Dashboard</strong>
+                    Histórico e estatísticas
+                </div>
+                <div class="status-item done">
+                    <strong>Documentação</strong>
+                    Completa e detalhada
+                </div>
+                <div class="status-item done">
+                    <strong>Testes</strong>
+                    Página de diagnóstico
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="status-section">
+            <h2>🎯 Próximos Passos</h2>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>1.</strong> Abra a página de testes (teste.html) para diagnosticar</li>
+                <li><strong>2.</strong> Se tudo OK, acesse a página principal (Frontend/PageOne.html)</li>
+                <li><strong>3.</strong> Digite um dos telefones de teste para buscar cliente</li>
+                <li><strong>4.</strong> Escolha proteína, acompanhamentos e saladas</li>
+                <li><strong>5.</strong> Clique "Finalizar Pedido" e depois "Imprimir Comanda"</li>
+                <li><strong>6.</strong> Teste impressão com "Imprimir para PDF" primeiro</li>
+                <li><strong>7.</strong> Depois configure sua impressora térmica</li>
+            </ol>
+        </div>
+
+        <!-- Clientes Teste -->
+        <div class="status-section">
+            <h2>📱 Telefones de Teste (Já Cadastrados)</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background: #f9f9f9;">
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #FF6B35;">Telefone</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #FF6B35;">Nome</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #FF6B35;">Secretaria</th>
+                </tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">(11) 98765-4321</td><td style="padding: 8px; border-bottom: 1px solid #eee;">João Silva</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Vendas</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">(11) 97654-3210</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Maria Santos</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Administrativo</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">(11) 96543-2109</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Pedro Costa</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Financeiro</td></tr>
+                <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">(11) 95432-1098</td><td style="padding: 8px; border-bottom: 1px solid #eee;">Ana Paula</td><td style="padding: 8px; border-bottom: 1px solid #eee;">RH</td></tr>
+                <tr><td style="padding: 8px;">(11) 94321-0987</td><td style="padding: 8px;">Carlos Ferreira</td><td style="padding: 8px;">Vendas</td></tr>
+            </table>
+        </div>
+
+        <footer>
+            <p>🍽️ Sistema de Comandas - Delícias da Cintia | Versão 1.0 | 2026</p>
+            <p>Desenvolvido com ❤️ para facilitar sua operação</p>
+        </footer>
+    </div>
+</body>
+</html>
